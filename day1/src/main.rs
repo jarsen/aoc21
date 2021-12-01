@@ -1,5 +1,5 @@
 fn main() {
-    let numbers = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263];
+    let numbers = get_numbers(String::new());
 
     let quickness = numbers.windows(2).fold(0, |count, chunk| {
         if chunk[0] < chunk[1] {
@@ -9,4 +9,9 @@ fn main() {
         }
     });
     println!("{}", quickness);
+}
+
+fn get_numbers(_file_name: String) -> [i32; 10] {
+    let numbers = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263];
+    numbers
 }
