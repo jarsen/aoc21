@@ -3,8 +3,8 @@ use std::fs;
 fn main() {
     let path = std::env::args().nth(1).expect("no path given");
     let depths = read_depths(&path);
-    part1(&depths);
-    part2(&depths);
+    println!("{}", part1(&depths));
+    println!("{}", part2(&depths));
 }
 
 fn read_depths(path: &String) -> Vec<i32> {
@@ -15,21 +15,19 @@ fn read_depths(path: &String) -> Vec<i32> {
         .collect::<Vec<i32>>()
 }
 
-fn part1(depths: &Vec<i32>) {
-    let quickness = depths
+fn part1(depths: &Vec<i32>) -> usize {
+    depths
         .windows(2)
         .filter(|window| window[0] < window[1])
-        .count();
-    println!("{}", quickness);
+        .count()
 }
 
-fn part2(depths: &Vec<i32>) {
-    let quickness = depths
+fn part2(depths: &Vec<i32>) -> usize {
+    depths
         .windows(3)
         .map(|window| window.iter().sum())
         .collect::<Vec<i32>>()
         .windows(2)
         .filter(|window| window[0] < window[1])
-        .count();
-    println!("{}", quickness);
+        .count()
 }
