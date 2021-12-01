@@ -15,14 +15,14 @@ fn read_depths(path: &String) -> Vec<i32> {
         .collect()
 }
 
-fn part1(depths: &Vec<i32>) -> usize {
+fn part1(depths: &[i32]) -> usize {
     depths
         .windows(2)
         .filter(|window| window[0] < window[1])
         .count()
 }
 
-fn part2(depths: &Vec<i32>) -> usize {
+fn part2(depths: &[i32]) -> usize {
     depths
         .windows(3)
         .map(|window| window.iter().sum())
