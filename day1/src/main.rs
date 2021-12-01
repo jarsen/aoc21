@@ -12,7 +12,7 @@ fn read_depths(path: &String) -> Vec<i32> {
         .expect("Something went wrong reading the file")
         .lines()
         .map(|line| line.parse::<i32>().unwrap())
-        .collect::<Vec<i32>>()
+        .collect()
 }
 
 fn part1(depths: &Vec<i32>) -> usize {
