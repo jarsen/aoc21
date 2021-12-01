@@ -3,6 +3,10 @@ use std::fs;
 fn main() {
     let path = std::env::args().nth(1).expect("no path given");
 
+    part1(path);
+}
+
+fn part1(path: String) {
     let quickness = fs::read_to_string(path)
         .expect("Something went wrong reading the file")
         .lines()
