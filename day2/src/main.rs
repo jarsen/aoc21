@@ -9,13 +9,14 @@ enum Command {
 
 impl Command {
     fn from_input(input: &str) -> Self {
+        use Command::*;
         let split: Vec<&str> = input.split(' ').collect();
         let direction = split[0];
         let distance = split[1].parse().unwrap();
         match direction {
-            "forward" => Command::Forward(distance),
-            "down" => Command::Down(distance),
-            "up" => Command::Up(distance),
+            "forward" => Forward(distance),
+            "down" => Down(distance),
+            "up" => Up(distance),
             _ => panic!("Unknown direction input"),
         }
     }
