@@ -97,4 +97,12 @@ fn read_commands(path: &String) -> Vec<Command> {
 fn main() {
     let path = std::env::args().nth(1).expect("no path given");
     let commands = read_commands(&path);
+
+    let submarine = commands
+        .iter()
+        .fold(Submarine::origin(), |submarine, command| {
+            submarine.execute(command)
+        });
+
+    println!("{}", submarine.x * submarine.y);
 }
