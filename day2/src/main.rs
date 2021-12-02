@@ -139,6 +139,7 @@ fn read_commands(path: &String) -> Vec<Command> {
         .map(Command::from_input)
         .collect()
 }
+
 fn main() {
     let path = std::env::args().nth(1).expect("no path given");
     let commands = read_commands(&path);
