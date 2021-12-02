@@ -77,6 +77,7 @@ impl Submarine {
     }
 }
 
+#[cfg(test)]
 mod submarine_tests {
     use super::*;
 
