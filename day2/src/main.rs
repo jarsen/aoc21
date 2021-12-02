@@ -22,7 +22,7 @@ impl Command {
 }
 
 #[cfg(test)]
-mod move_tests {
+mod command_tests {
     use super::*;
 
     #[test]
@@ -56,44 +56,63 @@ impl Submarine {
         match command {
             Command::Forward(distance) => Submarine {
                 x: self.x + distance,
+                y: self.y + distance * self.aim,
+                aim: self.aim,
+            },
+            Command::Down(amount) => Submarine {
+                x: self.x,
                 y: self.y,
-                aim: self.aim,
+                aim: self.aim + amount,
             },
-            Command::Down(distance) => Submarine {
+            Command::Up(amount) => Submarine {
                 x: self.x,
-                y: self.y + distance,
-                aim: self.aim,
-            },
-            Command::Up(distance) => Submarine {
-                x: self.x,
-                y: self.y - distance,
-                aim: self.aim,
+                y: self.y,
+                aim: self.aim - amount,
             },
         }
     }
 }
 
-mod location_tests {
+mod submarine_tests {
     use super::*;
 
     #[test]
-    fn can_move_location() {
-        let location = Submarine::start();
-        assert_eq!(
-            Submarine { x: 4, y: 0, aim: 0 },
-            location.execute(&Command::Forward(4))
-        );
+    fn submarine_moves_horizontal() {
+        let submarine = Submarine::start().execute(&Command::Forward(5));
+        assert_eq!(Submarine { x: 5, y: 0, aim: 0 }, submarine);
+    }
+
+    #[test]
+    fn submarine_moves_down() {
+        let submarine = Submarine { x: 5, y: 0, aim: 0 }
+            .execute(&Command::Down(5))
+            .execute(&Command::Forward(8));
         assert_eq!(
             Submarine {
-                x: 0,
-                y: -5,
-                aim: 0
+                x: 13,
+                y: 40,
+                aim: 5
             },
-            location.execute(&Command::Up(5))
+            submarine
         );
+    }
+
+    #[test]
+    fn submarine_moves_up() {
+        let submarine = Submarine {
+            x: 13,
+            y: 40,
+            aim: 0,
+        }
+        .execute(&Command::Up(3))
+        .execute(&Command::Forward(8));
         assert_eq!(
-            Submarine { x: 0, y: 3, aim: 0 },
-            location.execute(&Command::Down(3))
+            Submarine {
+                x: 21,
+                y: 16,
+                aim: -3
+            },
+            submarine
         );
     }
 }
