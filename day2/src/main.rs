@@ -11,11 +11,11 @@ impl Command {
     fn from_input(input: &str) -> Self {
         let split: Vec<&str> = input.split(' ').collect();
         let direction = split[0];
-        let units = split[1].parse().unwrap();
+        let distance = split[1].parse().unwrap();
         match direction {
-            "forward" => Command::Forward(units),
-            "down" => Command::Down(units),
-            "up" => Command::Up(units),
+            "forward" => Command::Forward(distance),
+            "down" => Command::Down(distance),
+            "up" => Command::Up(distance),
             _ => panic!("Unknown direction input"),
         }
     }
@@ -57,18 +57,19 @@ impl Submarine {
     }
 
     fn execute(&self, command: &Command) -> Submarine {
+        use Command::*;
         match command {
-            Command::Forward(distance) => Submarine {
+            Forward(distance) => Submarine {
                 horizontal: self.horizontal + distance,
                 depth: self.depth + distance * self.aim,
                 aim: self.aim,
             },
-            Command::Down(amount) => Submarine {
+            Down(amount) => Submarine {
                 horizontal: self.horizontal,
                 depth: self.depth,
                 aim: self.aim + amount,
             },
-            Command::Up(amount) => Submarine {
+            Up(amount) => Submarine {
                 horizontal: self.horizontal,
                 depth: self.depth,
                 aim: self.aim - amount,
@@ -77,7 +78,6 @@ impl Submarine {
     }
 }
 
-#[cfg(test)]
 mod submarine_tests {
     use super::*;
 
@@ -140,7 +140,6 @@ fn read_commands(path: &String) -> Vec<Command> {
         .map(Command::from_input)
         .collect()
 }
-
 fn main() {
     let path = std::env::args().nth(1).expect("no path given");
     let commands = read_commands(&path);
