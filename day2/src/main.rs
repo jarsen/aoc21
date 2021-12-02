@@ -44,11 +44,12 @@ mod move_tests {
 struct Submarine {
     x: i32,
     y: i32,
+    aim: i32,
 }
 
 impl Submarine {
     fn origin() -> Self {
-        Self { x: 0, y: 0 }
+        Self { x: 0, y: 0, aim: 0 }
     }
 
     fn execute(&self, command: &Command) -> Submarine {
@@ -56,14 +57,17 @@ impl Submarine {
             Command::Forward(distance) => Submarine {
                 x: self.x + distance,
                 y: self.y,
+                aim: self.aim,
             },
             Command::Down(distance) => Submarine {
                 x: self.x,
                 y: self.y + distance,
+                aim: self.aim,
             },
             Command::Up(distance) => Submarine {
                 x: self.x,
                 y: self.y - distance,
+                aim: self.aim,
             },
         }
     }
@@ -76,12 +80,19 @@ mod location_tests {
     fn can_move_location() {
         let location = Submarine::origin();
         assert_eq!(
-            Submarine { x: 4, y: 0 },
+            Submarine { x: 4, y: 0, aim: 0 },
             location.execute(&Command::Forward(4))
         );
-        assert_eq!(Submarine { x: 0, y: -5 }, location.execute(&Command::Up(5)));
         assert_eq!(
-            Submarine { x: 0, y: 3 },
+            Submarine {
+                x: 0,
+                y: -5,
+                aim: 0
+            },
+            location.execute(&Command::Up(5))
+        );
+        assert_eq!(
+            Submarine { x: 0, y: 3, aim: 0 },
             location.execute(&Command::Down(3))
         );
     }
