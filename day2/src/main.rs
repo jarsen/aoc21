@@ -38,6 +38,11 @@ mod tests {
     }
 }
 
+struct Location {
+    x: i32,
+    y: i32,
+}
+
 fn main() {
     println!("Hello, world!");
 }
