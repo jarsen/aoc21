@@ -11,11 +11,11 @@ impl Command {
     fn from_input(input: &str) -> Self {
         let split: Vec<&str> = input.split(' ').collect();
         let direction = split[0];
-        let distance = split[1].parse().unwrap();
+        let units = split[1].parse().unwrap();
         match direction {
-            "forward" => Command::Forward(distance),
-            "down" => Command::Down(distance),
-            "up" => Command::Up(distance),
+            "forward" => Command::Forward(units),
+            "down" => Command::Down(units),
+            "up" => Command::Up(units),
             _ => panic!("Unknown direction input"),
         }
     }
