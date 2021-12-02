@@ -48,7 +48,7 @@ struct Submarine {
 }
 
 impl Submarine {
-    fn origin() -> Self {
+    fn start() -> Self {
         Self { x: 0, y: 0, aim: 0 }
     }
 
@@ -78,7 +78,7 @@ mod location_tests {
 
     #[test]
     fn can_move_location() {
-        let location = Submarine::origin();
+        let location = Submarine::start();
         assert_eq!(
             Submarine { x: 4, y: 0, aim: 0 },
             location.execute(&Command::Forward(4))
@@ -111,7 +111,7 @@ fn main() {
 
     let submarine = commands
         .iter()
-        .fold(Submarine::origin(), |submarine, command| {
+        .fold(Submarine::start(), |submarine, command| {
             submarine.execute(command)
         });
 
