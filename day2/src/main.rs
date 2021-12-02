@@ -87,6 +87,13 @@ mod location_tests {
     }
 }
 
+fn read_commands(path: &String) -> Vec<Command> {
+    fs::read_to_string(path)
+        .expect("Something went wrong reading the file")
+        .lines()
+        .map(Command::from_input)
+        .collect()
+}
 fn main() {
     println!("Hello, world!");
 }
