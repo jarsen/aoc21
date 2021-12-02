@@ -59,11 +59,11 @@ impl Submarine {
             },
             Command::Down(distance) => Submarine {
                 x: self.x,
-                y: self.y - distance,
+                y: self.y + distance,
             },
             Command::Up(distance) => Submarine {
                 x: self.x,
-                y: self.y + distance,
+                y: self.y - distance,
             },
         }
     }
@@ -79,11 +79,8 @@ mod location_tests {
             Submarine { x: 4, y: 0 },
             location.execute(Command::Forward(4))
         );
-        assert_eq!(Submarine { x: 0, y: 5 }, location.execute(Command::Up(5)));
-        assert_eq!(
-            Submarine { x: 0, y: -3 },
-            location.execute(Command::Down(3))
-        );
+        assert_eq!(Submarine { x: 0, y: -5 }, location.execute(Command::Up(5)));
+        assert_eq!(Submarine { x: 0, y: 3 }, location.execute(Command::Down(3)));
     }
 }
 
@@ -95,5 +92,6 @@ fn read_commands(path: &String) -> Vec<Command> {
         .collect()
 }
 fn main() {
-    println!("Hello, world!");
+    let path = std::env::args().nth(1).expect("no path given");
+    let commands = read_commands(&path);
 }
