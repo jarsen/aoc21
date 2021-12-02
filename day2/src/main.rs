@@ -20,7 +20,7 @@ impl Move {
 }
 
 #[cfg(test)]
-mod tests {
+mod move_tests {
     use super::*;
 
     #[test]
@@ -38,9 +38,45 @@ mod tests {
     }
 }
 
+#[derive(Debug, PartialEq)]
 struct Location {
     x: i32,
     y: i32,
+}
+
+impl Location {
+    fn origin() -> Self {
+        Self { x: 0, y: 0 }
+    }
+
+    fn r#move(&self, r#move: Move) -> Location {
+        match r#move {
+            Move::Forward(distance) => Location {
+                x: self.x + distance,
+                y: self.y,
+            },
+            Move::Down(distance) => Location {
+                x: self.x,
+                y: self.y - distance,
+            },
+            Move::Up(distance) => Location {
+                x: self.x,
+                y: self.y + distance,
+            },
+        }
+    }
+}
+
+mod location_tests {
+    use super::*;
+
+    #[test]
+    fn can_move_location() {
+        let location = Location::origin();
+        assert_eq!(Location { x: 4, y: 0 }, location.r#move(Move::Forward(4)));
+        assert_eq!(Location { x: 0, y: 5 }, location.r#move(Move::Up(5)));
+        assert_eq!(Location { x: 0, y: -3 }, location.r#move(Move::Down(3)));
+    }
 }
 
 fn main() {
