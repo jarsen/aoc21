@@ -45,27 +45,27 @@ mod move_tests {
 }
 
 #[derive(Debug, PartialEq)]
-struct Location {
+struct Submarine {
     x: i32,
     y: i32,
 }
 
-impl Location {
+impl Submarine {
     fn origin() -> Self {
         Self { x: 0, y: 0 }
     }
 
-    fn r#move(&self, r#move: Command) -> Location {
+    fn r#move(&self, r#move: Command) -> Submarine {
         match r#move {
-            Command::Forward(distance) => Location {
+            Command::Forward(distance) => Submarine {
                 x: self.x + distance,
                 y: self.y,
             },
-            Command::Down(distance) => Location {
+            Command::Down(distance) => Submarine {
                 x: self.x,
                 y: self.y - distance,
             },
-            Command::Up(distance) => Location {
+            Command::Up(distance) => Submarine {
                 x: self.x,
                 y: self.y + distance,
             },
@@ -78,13 +78,13 @@ mod location_tests {
 
     #[test]
     fn can_move_location() {
-        let location = Location::origin();
+        let location = Submarine::origin();
         assert_eq!(
-            Location { x: 4, y: 0 },
+            Submarine { x: 4, y: 0 },
             location.r#move(Command::Forward(4))
         );
-        assert_eq!(Location { x: 0, y: 5 }, location.r#move(Command::Up(5)));
-        assert_eq!(Location { x: 0, y: -3 }, location.r#move(Command::Down(3)));
+        assert_eq!(Submarine { x: 0, y: 5 }, location.r#move(Command::Up(5)));
+        assert_eq!(Submarine { x: 0, y: -3 }, location.r#move(Command::Down(3)));
     }
 }
 
