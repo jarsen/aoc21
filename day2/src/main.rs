@@ -1,3 +1,5 @@
+use std::fs;
+
 #[derive(Debug, PartialEq)]
 enum Command {
     Forward(i32),
@@ -6,7 +8,7 @@ enum Command {
 }
 
 impl Command {
-    fn from_input(input: String) -> Self {
+    fn from_input(input: &str) -> Self {
         let split: Vec<&str> = input.split(' ').collect();
         let direction = split[0];
         let distance = split[1].parse().unwrap();
@@ -25,22 +27,16 @@ mod move_tests {
 
     #[test]
     fn it_parses_inputs() {
-        assert_eq!(
-            Command::from_input("forward 0".to_string()),
-            Command::Forward(0)
-        );
-        assert_eq!(
-            Command::from_input("forward 1".to_string()),
-            Command::Forward(1)
-        );
-        assert_eq!(Command::from_input("down 5".to_string()), Command::Down(5));
-        assert_eq!(Command::from_input("up 7".to_string()), Command::Up(7));
+        assert_eq!(Command::from_input("forward 0"), Command::Forward(0));
+        assert_eq!(Command::from_input("forward 1"), Command::Forward(1));
+        assert_eq!(Command::from_input("down 5"), Command::Down(5));
+        assert_eq!(Command::from_input("up 7"), Command::Up(7));
     }
 
     #[test]
     #[should_panic]
     fn it_panics_on_bad_input() {
-        Command::from_input("left 6".to_string());
+        Command::from_input("left 6");
     }
 }
 
