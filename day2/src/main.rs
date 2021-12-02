@@ -42,30 +42,34 @@ mod command_tests {
 
 #[derive(Debug, PartialEq)]
 struct Submarine {
-    x: i32,
+    horizontal: i32,
     y: i32,
     aim: i32,
 }
 
 impl Submarine {
     fn start() -> Self {
-        Self { x: 0, y: 0, aim: 0 }
+        Self {
+            horizontal: 0,
+            y: 0,
+            aim: 0,
+        }
     }
 
     fn execute(&self, command: &Command) -> Submarine {
         match command {
             Command::Forward(distance) => Submarine {
-                x: self.x + distance,
+                horizontal: self.horizontal + distance,
                 y: self.y + distance * self.aim,
                 aim: self.aim,
             },
             Command::Down(amount) => Submarine {
-                x: self.x,
+                horizontal: self.horizontal,
                 y: self.y,
                 aim: self.aim + amount,
             },
             Command::Up(amount) => Submarine {
-                x: self.x,
+                horizontal: self.horizontal,
                 y: self.y,
                 aim: self.aim - amount,
             },
@@ -79,17 +83,28 @@ mod submarine_tests {
     #[test]
     fn submarine_moves_horizontal() {
         let submarine = Submarine::start().execute(&Command::Forward(5));
-        assert_eq!(Submarine { x: 5, y: 0, aim: 0 }, submarine);
+        assert_eq!(
+            Submarine {
+                horizontal: 5,
+                y: 0,
+                aim: 0
+            },
+            submarine
+        );
     }
 
     #[test]
     fn submarine_moves_down() {
-        let submarine = Submarine { x: 5, y: 0, aim: 0 }
-            .execute(&Command::Down(5))
-            .execute(&Command::Forward(8));
+        let submarine = Submarine {
+            horizontal: 5,
+            y: 0,
+            aim: 0,
+        }
+        .execute(&Command::Down(5))
+        .execute(&Command::Forward(8));
         assert_eq!(
             Submarine {
-                x: 13,
+                horizontal: 13,
                 y: 40,
                 aim: 5
             },
@@ -100,7 +115,7 @@ mod submarine_tests {
     #[test]
     fn submarine_moves_up() {
         let submarine = Submarine {
-            x: 13,
+            horizontal: 13,
             y: 40,
             aim: 0,
         }
@@ -108,7 +123,7 @@ mod submarine_tests {
         .execute(&Command::Forward(8));
         assert_eq!(
             Submarine {
-                x: 21,
+                horizontal: 21,
                 y: 16,
                 aim: -3
             },
@@ -134,5 +149,5 @@ fn main() {
             submarine.execute(command)
         });
 
-    println!("{}", submarine.x * submarine.y);
+    println!("{}", submarine.horizontal * submarine.y);
 }
