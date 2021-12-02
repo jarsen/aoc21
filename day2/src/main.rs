@@ -55,8 +55,8 @@ impl Submarine {
         Self { x: 0, y: 0 }
     }
 
-    fn r#move(&self, r#move: Command) -> Submarine {
-        match r#move {
+    fn execute(&self, command: Command) -> Submarine {
+        match command {
             Command::Forward(distance) => Submarine {
                 x: self.x + distance,
                 y: self.y,
@@ -81,10 +81,13 @@ mod location_tests {
         let location = Submarine::origin();
         assert_eq!(
             Submarine { x: 4, y: 0 },
-            location.r#move(Command::Forward(4))
+            location.execute(Command::Forward(4))
         );
-        assert_eq!(Submarine { x: 0, y: 5 }, location.r#move(Command::Up(5)));
-        assert_eq!(Submarine { x: 0, y: -3 }, location.r#move(Command::Down(3)));
+        assert_eq!(Submarine { x: 0, y: 5 }, location.execute(Command::Up(5)));
+        assert_eq!(
+            Submarine { x: 0, y: -3 },
+            location.execute(Command::Down(3))
+        );
     }
 }
 
