@@ -34,7 +34,7 @@ impl GammaReader {
         gamma
     }
 
-    fn consumption(&self) -> u64 {
+    fn calc_consumption(&self) -> u64 {
         let gamma = self.calc_gamma();
         let mask = (1 << 5) - 1;
         let episilon = !gamma & mask;
@@ -87,7 +87,7 @@ mod gamma_reader_tests {
         let reader = &mut GammaReader::new();
         read_test_input(reader);
 
-        assert_eq!(reader.consumption(), 198);
+        assert_eq!(reader.calc_consumption(), 198);
     }
 }
 
