@@ -1,12 +1,12 @@
 use std::fs;
 
-struct EnergyReader {
+struct EnergyReport {
     bit_length: usize,
     num_readings: u64,
     one_counts: Vec<u64>,
 }
 
-impl EnergyReader {
+impl EnergyReport {
     fn new() -> Self {
         Self {
             bit_length: 0,
@@ -51,9 +51,9 @@ impl EnergyReader {
 
 #[cfg(test)]
 mod gamma_reader_tests {
-    use crate::EnergyReader;
+    use crate::EnergyReport;
 
-    fn read_test_input(reader: &mut EnergyReader) {
+    fn read_test_input(reader: &mut EnergyReport) {
         let input = r#"00100
 11110
 10110
@@ -73,7 +73,7 @@ mod gamma_reader_tests {
 
     #[test]
     fn it_reads() {
-        let reader = &mut EnergyReader::new();
+        let reader = &mut EnergyReport::new();
         read_test_input(reader);
 
         assert_eq!(reader.num_readings, 12);
@@ -83,7 +83,7 @@ mod gamma_reader_tests {
 
     #[test]
     fn it_calculates_gamma() {
-        let reader = &mut EnergyReader::new();
+        let reader = &mut EnergyReport::new();
         read_test_input(reader);
 
         assert_eq!(reader.calc_gamma(), 22);
@@ -91,14 +91,14 @@ mod gamma_reader_tests {
 
     #[test]
     fn it_calculates_consumption() {
-        let reader = &mut EnergyReader::new();
+        let reader = &mut EnergyReport::new();
         read_test_input(reader);
 
         assert_eq!(reader.calc_consumption(), 198);
     }
 }
 
-fn read_input(path: &String, reader: &mut EnergyReader) {
+fn read_input(path: &String, reader: &mut EnergyReport) {
     fs::read_to_string(path)
         .expect("Something went wrong reading the file")
         .lines()
@@ -107,7 +107,7 @@ fn read_input(path: &String, reader: &mut EnergyReader) {
 
 fn main() {
     let path = std::env::args().nth(1).expect("no path given");
-    let reader = &mut EnergyReader::new();
+    let reader = &mut EnergyReport::new();
     read_input(&path, reader);
 
     println!("Consumption: {}", reader.calc_consumption());
