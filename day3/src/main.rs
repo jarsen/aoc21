@@ -1,3 +1,5 @@
+use std::fs;
+
 fn consumption(gamma: u32) -> u32 {
     let mask = (1 << 5) - 1;
     let episilon = !gamma & mask;
@@ -12,6 +14,15 @@ mod consumption_tests {
     fn calculates_consumption() {
         assert_eq!(consumption(22), 198);
     }
+}
+
+struct GammaAccumulator {
+    num_readings: u64,
+    first_count: u64,
+    second_count: u64,
+    third_count: u64,
+    fourth_count: u64,
+    fifth_count: u64,
 }
 
 fn main() {
