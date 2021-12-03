@@ -1,19 +1,26 @@
 use std::fs;
 
 struct GammaReader {
+    bit_length: usize,
     num_readings: u64,
-    one_counts: [u64; 5],
+    one_counts: Vec<u64>,
 }
 
 impl GammaReader {
     fn new() -> Self {
         Self {
+            bit_length: 0,
             num_readings: 0,
-            one_counts: [0, 0, 0, 0, 0],
+            one_counts: Vec::new(),
         }
     }
 
     fn add_reading(&mut self, reading: &str) {
+        if self.bit_length == 0 {
+            self.bit_length = reading.len();
+            self.one_counts = vec![0; self.bit_length]
+        }
+
         self.num_readings += 1;
 
         for (i, value) in reading.chars().enumerate() {
@@ -27,7 +34,7 @@ impl GammaReader {
         let mut gamma = 0;
         for (i, count) in self.one_counts.iter().enumerate() {
             if *count > self.num_readings / 2 {
-                let mask = 1 << (4 - i);
+                let mask = 1 << (self.bit_length - 1 - i);
                 gamma = gamma | mask;
             }
         }
@@ -36,7 +43,7 @@ impl GammaReader {
 
     fn calc_consumption(&self) -> u64 {
         let gamma = self.calc_gamma();
-        let mask = (1 << 5) - 1;
+        let mask = (1 << self.bit_length) - 1;
         let episilon = !gamma & mask;
         gamma * episilon
     }
