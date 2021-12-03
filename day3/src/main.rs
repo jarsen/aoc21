@@ -103,7 +103,5 @@ fn main() {
     let reader = &mut GammaReader::new();
     read_input(&path, reader);
 
-    println!("{}", reader.num_readings);
-    println!("{:?}", reader.one_counts);
-    reader.calc_gamma();
+    println!("Consumption: {}", reader.calc_consumption());
 }
