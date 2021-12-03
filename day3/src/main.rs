@@ -39,24 +39,22 @@ impl GammaReader {
         }
     }
 
-    fn calc_gamma(&self) {
-        for count in self.one_counts {
-            if count > self.num_readings / 2 {
-                print!("1");
-            } else {
-                print!("0");
+    fn calc_gamma(&self) -> u64 {
+        let mut gamma = 0;
+        for (i, count) in self.one_counts.iter().enumerate() {
+            if *count > self.num_readings / 2 {
+                let mask = 1 << (4 - i);
+                gamma = gamma | mask;
             }
         }
+        gamma
     }
 }
 
 #[cfg(test)]
 mod gamma_reader_tests {
     use crate::GammaReader;
-
-    #[test]
-    fn it_reads() {
-        let input = r#"00100
+    static INPUT: &str = r#"00100
 11110
 10110
 10111
@@ -68,13 +66,25 @@ mod gamma_reader_tests {
 11001
 00010
 01010"#;
+
+    #[test]
+    fn it_reads() {
         let reader = &mut GammaReader::new();
-        for reading in input.lines() {
+        for reading in INPUT.lines() {
             reader.add_reading(reading);
         }
         assert_eq!(reader.num_readings, 12);
         assert_eq!(reader.one_counts[0], 7);
         assert_eq!(reader.one_counts[1], 5);
+    }
+
+    #[test]
+    fn it_calculates_gamma() {
+        let reader = &mut GammaReader::new();
+        for reading in INPUT.lines() {
+            reader.add_reading(reading);
+        }
+        assert_eq!(reader.calc_gamma(), 22);
     }
 }
 
