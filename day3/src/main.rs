@@ -38,6 +38,16 @@ impl GammaReader {
             }
         }
     }
+
+    fn calc_gamma(&self) {
+        for count in self.one_counts {
+            if count > self.num_readings / 2 {
+                print!("1");
+            } else {
+                print!("0");
+            }
+        }
+    }
 }
 
 #[cfg(test)]
@@ -68,6 +78,19 @@ mod gamma_reader_tests {
     }
 }
 
+fn read_input(path: &String, reader: &mut GammaReader) {
+    fs::read_to_string(path)
+        .expect("Something went wrong reading the file")
+        .lines()
+        .for_each(|reading| reader.add_reading(reading.trim()));
+}
+
 fn main() {
-    println!("Hello, world!");
+    let path = std::env::args().nth(1).expect("no path given");
+    let reader = &mut GammaReader::new();
+    read_input(&path, reader);
+
+    println!("{}", reader.num_readings);
+    println!("{:?}", reader.one_counts);
+    reader.calc_gamma();
 }
